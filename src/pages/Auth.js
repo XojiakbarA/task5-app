@@ -23,7 +23,7 @@ const Auth = () => {
         },
         validationSchema: nameValidationSchema,
         enableReinitialize: true,
-        onSubmit: async (data) => {
+        onSubmit: (data) => {
             client.publish({ destination: "/app/users/create", body: JSON.stringify(data) })
             localStorage.setItem("user", JSON.stringify(data))
             dispatch(setUser(data))
@@ -31,9 +31,7 @@ const Auth = () => {
         }
     })
 
-    if (user) {
-        return <Navigate to="/"/>
-    }
+    if (user) return <Navigate to="/"/>
 
     return (
         <Box

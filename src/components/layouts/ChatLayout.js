@@ -1,4 +1,4 @@
-import {Grid, Toolbar, useMediaQuery} from "@mui/material";
+import {Backdrop, CircularProgress, Grid, Toolbar, useMediaQuery} from "@mui/material";
 import UserList from "../UserList";
 import {Navigate, Outlet, useParams} from "react-router";
 import {useStore} from "../../hooks/useStore";
@@ -13,6 +13,18 @@ const ChatLayout = () => {
 
     const user = useStore(store => store.user)
 
+    const loading = useStore(store => store.loading)
+
+    if (loading) {
+        return (
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={true}
+            >
+                <CircularProgress color="inherit"/>
+            </Backdrop>
+        )
+    }
     if (!user) return <Navigate to="/auth"/>
 
     return (

@@ -1,7 +1,7 @@
 import {createContext, useEffect, useReducer} from 'react'
 import { reducer } from './reducer'
 import {fetchUser} from "../api";
-import {setUser} from "./actions";
+import {setLoading, setUser} from "./actions";
 
 export const StoreContext = createContext(null)
 export const DispatchContext = createContext(null)
@@ -29,9 +29,11 @@ export const AppProvider = ({ children }) => {
         const user = JSON.parse(localStorage.getItem("user"))
         const getUser = async () => {
             try {
+                dispatch(setLoading(true))
                 const res = await fetchUser(user?.id, user?.name)
                 if (res.status === 200) {
-
+                    dispatch(setUser(res.data.content))
+                    dispatch(setLoading(false))
                 }
             } catch (e) {
                 localStorage.removeItem("user")
