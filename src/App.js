@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import {Route, Routes} from "react-router";
+import Auth from "./pages/Auth";
+import ChatLayout from "./components/layouts/ChatLayout";
+import CustomSnackbar from "./components/CustomSnackbar";
+import Main from "./pages/Chat/Main";
+import Chat from "./pages/Chat/Chat";
+import WebSocketLayout from "./components/layouts/WebSocketLayout";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+
+    return (
+        <>
+        <Routes>
+            <Route element={<WebSocketLayout/>}>
+                <Route path="/" element={<ChatLayout/>}>
+                    <Route index element={<Main/>}/>
+                    <Route path="/users/:receiverID" element={<Main/>}/>
+                    <Route path="/users/:receiverID/chats/:chatID" element={<Chat/>}/>
+                </Route>
+                <Route path="/auth" element={<Auth/>}/>
+            </Route>
+        </Routes>
+        <CustomSnackbar/>
+        </>
+    )
 }
 
-export default App;
+export default App
